@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="assets/css/demo.css">
+  <link rel="stylesheet" href="assets/css/search.css">
+  <title>Automaz.Me</title>
+  </head>
+  <body>
+  <div id="search">
+    
+  </div>
+  </body>
+
+  <script>
+  import Vue from 'vue';
+  import Search from './search';
+
+  require('./problem/solution-finder')
+
+  const app = new Vue(Search).$mount('#search');
+
+  </script>
+</html>
