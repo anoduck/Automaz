@@ -1,5 +1,29 @@
-var allSolutions = [
-{
+<template>
+  <div>
+  hello
+  </div>
+</template>
+
+<script>
+
+
+const _= require("underscore");
+
+export default  {  
+  methods:
+  { 
+   find:function(keyword)
+   { 
+     return _.filter(this.allSolutions,function(ele){
+        return ele.problemStatement.title.indexOf(keyword) >= 0; // TBE 
+      });  
+  }
+},
+data(){
+  return { 
+    
+allSolutions:
+[{
     problemStatement :{
       title: "open @website",
       context: "",
@@ -33,8 +57,8 @@ var width = screenSize.width;
 
 for (var x = 0; x < width; x++)
 {
-	y = height * Math.sin((twoPI * x) / width) + height;
-	robot.moveMouse(x, y);
+  y = height * Math.sin((twoPI * x) / width) + height;
+  robot.moveMouse(x, y);
 }
             `
           },{
@@ -75,21 +99,8 @@ for (var x = 0; x < width; x++)
       ]
     }
 
-];
-
-var solution = {
-    find: function(keyword)
-    {
-      problemList = [];
-      allSolutions.forEach(function(ele){
-        if(ele.problemStatement.title.indexOf(keyword) >= 0) // TBE
-          problemList.push(ele);
-      });
-      return problemList;
-    }
-
+]
+  }
 }
-
-module.exports = {
-    methods: solution.find
 }
+</script>
