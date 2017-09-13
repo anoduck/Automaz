@@ -1,6 +1,6 @@
 <template>
   <div>
-  hello
+  {{info}}
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default  {
 },
 data(){
   return { 
-    
+    info:process.versions.node,
 allSolutions:
 [{
     problemStatement :{
