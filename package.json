@@ -47,8 +47,10 @@
     }
   },
   "dependencies": {
+    "artoo-js": "^0.3.4",
     "electron-compile": "^6.4.1",
-    "electron-devtools-installer": "2.0.1", 
+    "electron-devtools-installer": "2.0.1",
+    "nightmare": "^2.10.0",
     "underscore": "^1.8.3",
     "vue": "2.4.2"
   },
