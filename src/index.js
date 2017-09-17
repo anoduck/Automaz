@@ -2,6 +2,7 @@ import { app, BrowserWindow, globalShortcut} from 'electron';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import { enableLiveReload } from 'electron-compile';
 
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -42,6 +43,10 @@ const createWindow = async () => {
   globalShortcut.register('CommandOrControl+Shift+Z',()=>{
     mainWindow.show();
   });
+
+  globalShortcut.register('CommandOrControl+Shift+P',()=>{
+    mainWindow.webContents.executeJavaScript(`var play = require('./play');play.play();`);
+  });
 };
 
 // This method will be called when Electron has finished
@@ -68,3 +73,9 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+const ipcMain = require('electron').ipcMain;
+ipcMain.on('message', function(event, arg) {
+  console.log(arg);  // prints "ping"
+  //event.sender.send('asynchronous-reply', 'pong');
+});

@@ -59,6 +59,9 @@ export default {
             var result;
             eval(step.automation);
             this.executionInfo = result;
+            new Notification("Executed Succcessfully",{
+              body: result
+            });
             //ipc.send('notification',result);
           },this);
         }

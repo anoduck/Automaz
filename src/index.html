@@ -13,15 +13,28 @@
   <div id="search">
     
   </div>
+   <div id="great"> 
+  </div>
   </body>
 
   <script>
   import Vue from 'vue'; 
-
   import Search from './search';
 
 
   const app = new Vue(Search).$mount('#search');
+
+  const ipcRenderer = require('electron').ipcRenderer; 
+
+ipcRenderer.on('message', function(event, arg) {
+  console.log(arg); // prints "pong"
+});
+
+/*
+    var $ = require('jquery');
+     alert($('#great').text()); 
+
+     */
 
   </script>
 </html>

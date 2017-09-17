@@ -73,7 +73,46 @@ for (var x = 0; x < width; x++)
   , // #2
   {
       problemStatement :{
-        title: "get clipboard",
+        title: "search google <query>",
+        context: "",
+        block:"",
+        author:"linzhu"
+      },
+      solutions:[
+        {
+          enviroment:["electron"],
+          steps:[
+            {
+              number: 1,
+              name:"search ",
+              automation: `
+              const {BrowserWindow} = require('electron').remote;
+              let win = new BrowserWindow({width: 800, height: 600});
+              win.loadURL("http://www.google.com");
+              win.webContents.once('did-navigate', () => {  
+                win.webContents.once('dom-ready', () => { 
+                    win.webContents.executeJavaScript("
+                    var $ = require('jquery');
+                     $('#q').text('hello');
+                     $('#btnK').click();
+                   ");
+     
+                  });
+              });
+
+
+            
+
+              `
+            }
+          ]
+        }
+      ]
+    }//
+    , // #2
+  {
+      problemStatement :{
+        title: "get ",
         context: "",
         block:"",
         author:"linzhu"
@@ -89,15 +128,70 @@ for (var x = 0; x < width; x++)
               const {clipboard} = require('electron')
               result = clipboard.readText()
               `
-            },{
-              number: 3,
-              name:"type @website",
-              automation: "send @website"
             }
           ]
         }
       ]
-    }
+    }//
+     , // #3
+  {
+      problemStatement :{
+        title: "download",
+        context: "",
+        block:"",
+        author:"linzhu"
+      },
+      solutions:[
+        {
+          enviroment:["electron"],
+          steps:[
+            {
+              number: 1,
+              name:"open google",
+              automation: ` 
+
+           var Application = require('spectron').Application
+var assert = require('assert')
+const path = require('path')
+
+// Path to Electron
+var electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron')
+if (process.platform === 'win32') electronPath += '.cmd'
+
+// Path to your application
+var appPath = path.join(__dirname, 'bin', 'package')
+
+var app = new Application({
+  path: electronPath,
+  args: [appPath]
+}) 
+
+app.start().then(function () {
+  // Check if the window is visible
+  return app.browserWindow.isVisible()
+}).then(function (isVisible) {
+  // Verify the window is visible
+  assert.equal(isVisible, true)
+}).then(function () {
+  // Get the window's title
+  return app.client.getTitle()
+}).then(function (title) {
+  // Verify the window's title
+  assert.equal(title, 'My App')
+}).then(function () {
+  // Stop the application
+  return app.stop()
+}).catch(function (error) {
+  // Log any failures
+  console.error('Test failed', error.message)
+})
+              `
+            }
+          ]
+        }
+      ]
+    }//
+
 
 ]
   }
