@@ -86,21 +86,12 @@ for (var x = 0; x < width; x++)
               number: 1,
               name:"search ",
               automation: `
-              const {BrowserWindow} = require('electron').remote;
-              let win = new BrowserWindow({width: 800, height: 600});
-              win.loadURL("http://www.google.com");
-              win.webContents.once('did-navigate', () => {  
-                win.webContents.once('dom-ready', () => { 
-                    win.webContents.executeJavaScript("
-                    var $ = require('jquery');
-                     $('#q').text('hello');
-                     $('#btnK').click();
-                   ");
-     
-                  });
-              });
-
-
+              const AutoWeb = require('./autoweb');
+              var autoweb = new AutoWeb(); 
+              //autoweb.setup();
+              autoweb.loadURL("https://www.google.com");
+              autoweb.type("#lst-ib","Hello, World!");
+              autoweb.click("input[name='btnK']"); 
             
 
               `

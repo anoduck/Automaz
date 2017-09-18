@@ -1,10 +1,11 @@
 <template>
   <div id="dd">
     <div class="demo-controls">
-      <input class="demo-input" id="copy-to-input" aria-label="Click copy"
+      <input class="demo-input" id="search" ref="search" aria-label="Click copy"
       @keyup="find"
       @keyup.enter="execute"
       v-model="problemHint"
+      v-focus
       placeholder="what problem you want to solve?."></input>
 
     </div>
@@ -21,11 +22,18 @@
 
 <script>
 
+
 const {remote} = require("electron");
 const ipc = require('electron').ipcRenderer;
 const _= require("underscore");
 
 import mazolution from './mazolution';
+
+ const focus = {
+    inserted(el) {
+      el.focus()
+    },
+  }
 
 export default {
   data(){
@@ -39,6 +47,7 @@ export default {
   components:{
   	'mazolution':mazolution},
 
+  directives: { focus },
   methods:{
     find(){ 
       this.matchingProblems = this.$refs.mazolution.find(this.problemHint);
@@ -65,7 +74,7 @@ export default {
             //ipc.send('notification',result);
           },this);
         }
-      }
+      } 
     }
   }
   </script>

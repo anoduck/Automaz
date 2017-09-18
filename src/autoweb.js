@@ -1,28 +1,50 @@
- 
-function play()
-{  
-  const {BrowserWindow} = require('electron').remote;
-  let win = new BrowserWindow({width: 800, height: 600});
+const ipcRenderer = require('electron').ipcRenderer;
+
+module.exports = function()
+{
+  this.setup = function()
+  {  
+    const {BrowserWindow} = require('electron').remote;
+    hostWindow = new BrowserWindow({width: 800, height: 600});
+    hostWindow.webContents.openDevTools();
 
 
-  win.loadURL(`file://${__dirname}/host.html`);
+    hostWindow.loadURL(`file://${__dirname}/host.html`);
 
-  win.webContents.once('did-navigate', () => {  
-    win.webContents.once('dom-ready', () => { 
-     win.webContents.executeJavaScript(`
-        require('electron').ipcRenderer.send('message', "great");
-
-
-
-
+/*
+    win.webContents.once('did-navigate', () => {  
+      win.webContents.once('dom-ready', () => { 
+       win.webContents.executeJavaScript(`
         `);
 
-    });
-  }); 
-}
- 
+     });
+    }); 
+    */
+  };
 
-export {play}
+  this.loadURL = function(url)
+  {
+    debugger;
+    ipcRenderer.send('automation-web-load', url);
+  };
+
+   this.type = function(selector, text)
+  {
+
+    debugger;
+    ipcRenderer.send('automation-web-action', `
+      $("${selector}").val("${text}");
+      `);
+  };
+
+   this.click = function(selector)
+  {
+    ipcRenderer.send('automation-web-action', `
+      $("${selector}").click();
+      `);
+  };
+}
+
 
 
 /*
