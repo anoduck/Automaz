@@ -17,34 +17,38 @@
 	<div>
 		 
 	</div>
-  <webview id="webview" preload="./injection.js" src="./blank.html" style="position:absolute;width:100%;height:100%;"></webview>
+  <webview id="webview" src="./blank.html" style="position:absolute;width:100%;height:100%;"></webview>
   <script>
+
+
+const fs = require('fs');
+var preloadJsContent = fs.readFileSync(`${__dirname}/injection.js`, 'utf8');
+
 
   	//Dev Tools
 		const webview = document.querySelector('webview')
 		webview.addEventListener('dom-ready', () => {
-		  webview.openDevTools()
+		  webview.openDevTools();
+		  webview.getWebContents().executeJavaScript(preloadJsContent);
 		});
 
-//Listen to automation command
-const ipcRenderer = require('electron').ipcRenderer; 
 
-ipcRenderer.on('automation-web-load', function(event, arg) { 
+//Listen to automation command
+const ipcRenderer = require('electron').ipcRenderer;  
+ipcRenderer.on('automation-web-load', function(event, arg) {  
 	webview.loadURL(arg);
 });
 
 
-ipcRenderer.on('automation-web-action', function(event, arg) {
- 
-	webview.getWebContents().executeScript(arg,true)
+ipcRenderer.on('automation-web-action', function(event, arg) { 
+	webview.getWebContents().executeJavaScript(arg,true)
 	.then(result=>{
 		console.log(result);
 	});
   console.log(arg); // prints "pong"
 });
 
-
-
+ 
 
 
   </script>

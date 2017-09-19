@@ -27,11 +27,27 @@ const createWindow = async () => {
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
+
+  hostWindow = new BrowserWindow(
+  {
+    width: 800, 
+    height: 600,
+    /*
+    webPreferences: { 
+      preload: path.join(__dirname, 'injection.js')
+    }
+    */
+  });
+    hostWindow.loadURL(`file://${__dirname}/host.html`);
+
   // Open the DevTools.
   if (isDevMode) {
     await installExtension(VUEJS_DEVTOOLS);
     mainWindow.webContents.openDevTools();
+    hostWindow.webContents.openDevTools();
   }
+
+  mainWindow.focus();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
@@ -42,33 +58,30 @@ const createWindow = async () => {
   });
 
   
-    hostWindow = new BrowserWindow({width: 800, height: 600});
-    hostWindow.webContents.openDevTools();
 
-
-    hostWindow.loadURL(`file://${__dirname}/host.html`);
- 
 
 //IPC message for web loader
 
-  ipcMain.on('automation-web-load', function(event, arg) { 
+ipcMain.on('automation-web-load', function(event, arg) { 
     hostWindow.webContents.send('automation-web-load',arg);
+    //hostWindow.webContents.loadURL(arg);
   });
 
 
-  ipcMain.on('automation-web-action', function(event, arg) {  
-   hostWindow.webContents.send('automation-web-action',arg);
-  });
+ipcMain.on('automation-web-action', function(event, arg) {  
+      hostWindow.webContents.send('automation-web-action',arg);
+      //hostWindow.webContents.executeJavaScript(arg);
+    });
 
+ 
 
+globalShortcut.register('CommandOrControl+Shift+Z',()=>{
+  mainWindow.show();
+});
 
-  globalShortcut.register('CommandOrControl+Shift+Z',()=>{
-    mainWindow.show();
-  });
-
-  globalShortcut.register('CommandOrControl+Shift+P',()=>{
-    mainWindow.webContents.executeJavaScript(`var autoweb = require('./autoweb');autoweb();`);
-  });
+globalShortcut.register('CommandOrControl+Shift+P',()=>{
+  mainWindow.webContents.executeJavaScript(`var autoweb = require('./autoweb');autoweb();`);
+});
 };
 
 // This method will be called when Electron has finished

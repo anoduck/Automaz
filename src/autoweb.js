@@ -22,16 +22,15 @@ module.exports = function()
     */
   };
 
+  this.loaded = false;
+
   this.loadURL = function(url)
-  {
-    debugger;
+  { 
     ipcRenderer.send('automation-web-load', url);
   };
 
    this.type = function(selector, text)
-  {
-
-    debugger;
+  { 
     ipcRenderer.send('automation-web-action', `
       $("${selector}").val("${text}");
       `);
