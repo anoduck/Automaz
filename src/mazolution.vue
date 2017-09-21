@@ -21,7 +21,7 @@ export default  {
 },
 data(){
   return { 
-    info:process.versions.node,
+    info:process.versions.electron,
 allSolutions:
 [{
     problemStatement :{
@@ -103,7 +103,7 @@ for (var x = 0; x < width; x++)
     , // #2
   {
       problemStatement :{
-        title: "get ",
+        title: "open links in selected area",
         context: "",
         block:"",
         author:"linzhu"
@@ -114,7 +114,24 @@ for (var x = 0; x < width; x++)
           steps:[
             {
               number: 1,
+              name:"copy selected area to clipboard",
+              automation: `
+              const AutoWeb = require('./autoweb');
+              var autoweb = new AutoWeb(); 
+              autoweb.loadURL("https://www.google.com"); 
+              await autoweb.wait(2000);
+              autoweb.copy();
+              `
+            },{
+              number: 2,
               name:"get clipboard",
+              automation: `
+              const {clipboard} = require('electron')
+              result = clipboard.readText()
+              `
+            },,{
+              number: 3,
+              name:"get links from clipboard content",
               automation: `
               const {clipboard} = require('electron')
               result = clipboard.readText()

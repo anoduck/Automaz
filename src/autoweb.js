@@ -30,10 +30,31 @@ module.exports = function()
   };
 
    this.type = function(selector, text)
-  { 
+  {     
     ipcRenderer.send('automation-web-action', `
       $("${selector}").val("${text}");
       `);
+  };
+
+  this.sendInput = function(arg)
+  {
+    ipcRenderer.send('automation-web-input', arg);
+ 
+  };
+
+  this.wait = async function(ms=0)
+  { 
+    return new Promise(r => setTimeout(r, ms));
+  }
+
+   this.copy = function(arg)
+  {
+    this.sendInput(
+{
+    type: 'keyDown',
+    keyCode: 'c',
+    modifiers: ['control'],
+});
   };
 
    this.click = function(selector)

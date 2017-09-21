@@ -48,7 +48,10 @@ ipcRenderer.on('automation-web-action', function(event, arg) {
   console.log(arg); // prints "pong"
 });
 
+ipcRenderer.on('automation-web-input', function(event, arg) { 
+	webview.getWebContents().sendInputEvent(arg);
  
+ });
 
 
   </script>
