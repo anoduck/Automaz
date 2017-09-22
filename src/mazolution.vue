@@ -119,8 +119,7 @@ for (var x = 0; x < width; x++)
               const AutoWeb = require('./autoweb');
               var autoweb = new AutoWeb(); 
               autoweb.loadURL("https://www.google.com"); 
-              await autoweb.wait(2000);
-              autoweb.copy();
+              autoweb.wait(2000); 
               `
             },{
               number: 2,
@@ -129,7 +128,7 @@ for (var x = 0; x < width; x++)
               const {clipboard} = require('electron')
               result = clipboard.readText()
               `
-            },,{
+            },{
               number: 3,
               name:"get links from clipboard content",
               automation: `

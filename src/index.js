@@ -70,6 +70,11 @@ ipcMain.on('automation-web-load', function(event, arg) {
     //hostWindow.webContents.loadURL(arg);
   });
 
+ipcRenderer.on('automation-web-load-completed',function(event, arg) { 
+    mainWindow.webContents.send('automation-web-load-completed',arg);
+    //hostWindow.webContents.loadURL(arg);
+  });
+
 
 ipcMain.on('automation-web-action', function(event, arg) {  
       hostWindow.webContents.send('automation-web-action',arg);

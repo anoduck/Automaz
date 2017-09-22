@@ -1,7 +1,12 @@
 const ipcRenderer = require('electron').ipcRenderer;
+const d3 = require("d3-queue")
 
 module.exports = function()
 {
+
+  this.q = d3.queue();
+
+
   this.setup = function()
   {  
     const {BrowserWindow} = require('electron').remote;
@@ -26,8 +31,19 @@ module.exports = function()
 
   this.loadURL = function(url)
   { 
-    ipcRenderer.send('automation-web-load', url);
+    this.q.defer(this.loadURLTask,url);
   };
+
+ this.loadURLTask = function(url, callback)
+  {  
+    ipcRenderer.send('automation-web-load', url);
+    ipcRenderer.on('automation-web-load-completed',function(event, arg) { 
+       callback();
+       console.log("driver automation-web-load-completed");
+    });
+
+  };
+
 
    this.type = function(selector, text)
   {     
@@ -42,9 +58,17 @@ module.exports = function()
  
   };
 
-  this.wait = async function(ms=0)
+  this.wait = function(ms=0)
   { 
-    return new Promise(r => setTimeout(r, ms));
+    this.q.defer(this.waitTask, ms);
+  }
+
+   this.waitTask = function(ms=0, callback)
+  { 
+     setTimeout(function(){
+         callback();
+         console.log("waited " +ms)
+      }, ms);
   }
 
    this.copy = function(arg)

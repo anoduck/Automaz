@@ -37,12 +37,16 @@ var preloadJsContent = fs.readFileSync(`${__dirname}/injection.js`, 'utf8');
 const ipcRenderer = require('electron').ipcRenderer;  
 ipcRenderer.on('automation-web-load', function(event, arg) {  
 	webview.loadURL(arg);
+	webview.addEventListener('dom-ready', () => {
+		event.sender.send('automation-web-load-completed', '')
+		});
 });
 
 
 ipcRenderer.on('automation-web-action', function(event, arg) { 
 	webview.getWebContents().executeJavaScript(arg,true)
 	.then(result=>{
+		event.sender.send('automation-web-action-completed', '')
 		console.log(result);
 	});
   console.log(arg); // prints "pong"
