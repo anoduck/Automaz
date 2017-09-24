@@ -4,7 +4,7 @@ const d3 = require("d3-queue")
 module.exports = function()
 {
 
-  this.q = d3.queue();
+  this.q = d3.queue(1);
 
 
   this.setup = function()
@@ -38,8 +38,8 @@ module.exports = function()
   {  
     ipcRenderer.send('automation-web-load', url);
     ipcRenderer.on('automation-web-load-completed',function(event, arg) { 
-       callback();
        console.log("driver automation-web-load-completed");
+       callback(null);
     });
 
   };
@@ -47,46 +47,87 @@ module.exports = function()
 
    this.type = function(selector, text)
   {     
-    ipcRenderer.send('automation-web-action', `
+    var actionScript =  `
       $("${selector}").val("${text}");
-      `);
+      `;
+    this.q.defer(this.actionTask,actionScript);
+
+  };
+ this.click = function(selector)
+  {
+    var actionScript =  `
+      $("${selector}").live("click");
+      `;
+    this.q.defer(this.actionTask,actionScript); 
+  };
+
+   this.actionTask = function(actionScript, callback)
+  { 
+     console.log("start action task")    
+    ipcRenderer.send('automation-web-action',actionScript);
+    ipcRenderer.on('automation-web-action-completed',function(event, arg) { 
+       console.log("driver automation-web-action-completed");
+       callback(null);
+    });
   };
 
   this.sendInput = function(arg)
-  {
-    ipcRenderer.send('automation-web-input', arg);
+  {   
+    this.q.defer(this.sendInputask,arg);
  
+  };
+
+    this.sendInputask = function(arg, callback)
+  { 
+     console.log("start input task")    
+    ipcRenderer.send('automation-web-input',arg);
+    ipcRenderer.on('automation-web-input-completed',function(event, arg) { 
+       console.log("driver automation-web-input-completed");
+       callback(null);
+    });
   };
 
   this.wait = function(ms=0)
   { 
     this.q.defer(this.waitTask, ms);
+    //this.q.await(function(error){});
   }
 
    this.waitTask = function(ms=0, callback)
   { 
+    console.log("start wait task")
      setTimeout(function(){
-         callback();
          console.log("waited " +ms)
+         callback(null);
       }, ms);
   }
 
    this.copy = function(arg)
   {
     this.sendInput(
-{
-    type: 'keyDown',
-    keyCode: 'c',
-    modifiers: ['control'],
-});
+    {
+        type: 'keyDown',
+        keyCode: 'c',
+        modifiers: ['control'],
+    });
   };
 
-   this.click = function(selector)
+  this.enter = function(arg)
   {
-    ipcRenderer.send('automation-web-action', `
-      $("${selector}").click();
-      `);
+    this.sendInput(
+    {
+        type: 'keyDown',
+        keyCode: 'enter'
+    });
   };
+
+   this.select = function(x1,y1,x2,y2)
+  {
+    this.sendInput({type: 'mouseDown', x: x1, y: y1, button: 'left', clickCount: 1}); 
+    this.sendInput({type: 'mouseMove', x: x2, y: y2});
+    this.sendInput({type: 'mouseUp', x: x2, y: y2});
+  };
+
 }
 
 

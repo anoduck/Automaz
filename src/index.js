@@ -70,7 +70,7 @@ ipcMain.on('automation-web-load', function(event, arg) {
     //hostWindow.webContents.loadURL(arg);
   });
 
-ipcRenderer.on('automation-web-load-completed',function(event, arg) { 
+ipcMain.on('automation-web-load-completed',function(event, arg) { 
     mainWindow.webContents.send('automation-web-load-completed',arg);
     //hostWindow.webContents.loadURL(arg);
   });
@@ -81,6 +81,21 @@ ipcMain.on('automation-web-action', function(event, arg) {
       //hostWindow.webContents.executeJavaScript(arg);
     });
 
+ipcMain.on('automation-web-action-completed',function(event, arg) { 
+    mainWindow.webContents.send('automation-web-action-completed',arg);
+    //hostWindow.webContents.loadURL(arg);
+  });
+
+
+ipcMain.on('automation-web-input', function(event, arg) {  
+      hostWindow.webContents.send('automation-web-input',arg);
+      //hostWindow.webContents.executeJavaScript(arg);
+    });
+
+ipcMain.on('automation-web-input-completed',function(event, arg) { 
+    mainWindow.webContents.send('automation-web-input-completed',arg);
+    //hostWindow.webContents.loadURL(arg);
+  });
  
 
 globalShortcut.register('CommandOrControl+Shift+Z',()=>{

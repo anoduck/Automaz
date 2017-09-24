@@ -43,16 +43,19 @@ ipcRenderer.on('automation-web-load', function(event, arg) {
 });
 
 
-ipcRenderer.on('automation-web-action', function(event, arg) { 
+ipcRenderer.on('automation-web-action', function(event, arg) {  
+
+  console.log(`start action  ${arg}`);
 	webview.getWebContents().executeJavaScript(arg,true)
 	.then(result=>{
 		event.sender.send('automation-web-action-completed', '')
 		console.log(result);
 	});
-  console.log(arg); // prints "pong"
 });
 
 ipcRenderer.on('automation-web-input', function(event, arg) { 
+
+  console.log(`start input  ${arg}`);
 	webview.getWebContents().sendInputEvent(arg);
  
  });
