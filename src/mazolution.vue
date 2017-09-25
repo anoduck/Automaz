@@ -123,23 +123,28 @@ for (var x = 0; x < width; x++)
               autoweb.type("#lst-ib","Hello, World!");
               autoweb.type("#lst-ib","Hello, World 2!");
               autoweb.enter();
+              autoweb.wait(2000);
+              autoweb.type("#lst-ib","Hello, World 3----!");
               //autoweb.click("input[name='btnK']"); 
               autoweb.select(0,0,500,500);
               autoweb.copy();
+              autoweb.done();
               `
             },{
               number: 2,
               name:"get clipboard",
               automation: `
               const {clipboard} = require('electron')
-              result = clipboard.readText()
+              result = clipboard.readHTML() 
               `
             },{
               number: 3,
               name:"get links from clipboard content",
               automation: `
-              const {clipboard} = require('electron')
-              result = clipboard.readText()
+              console.log("haha " +result)
+              var cheerio = require('cheerio');
+              $ = cheerio.load(result); 
+              console.log($('a').text());
               `
             }
           ]

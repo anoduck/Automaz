@@ -43,7 +43,25 @@ module.exports = function()
     });
 
   };
+ this.wait = function(ms=0)
+  { 
+    this.q.defer(this.waitTask, ms);
+    //this.q.await(function(error){});
+  }
+ 
+   this.waitTask = function(ms=0, callback)
+  { 
+    console.log("start wait task")
+     setTimeout(function(){
+         console.log("waited " +ms)
+         callback(null);
+      }, ms);
+  }
 
+   this.done = function( )
+  { 
+    this.q.await(function(error){}); 
+  }
 
    this.type = function(selector, text)
   {     
@@ -81,26 +99,15 @@ module.exports = function()
   { 
      console.log("start input task")    
     ipcRenderer.send('automation-web-input',arg);
+    callback(null);
+    //there is no complete event, assume it will complete success
     ipcRenderer.on('automation-web-input-completed',function(event, arg) { 
        console.log("driver automation-web-input-completed");
        callback(null);
     });
   };
 
-  this.wait = function(ms=0)
-  { 
-    this.q.defer(this.waitTask, ms);
-    //this.q.await(function(error){});
-  }
-
-   this.waitTask = function(ms=0, callback)
-  { 
-    console.log("start wait task")
-     setTimeout(function(){
-         console.log("waited " +ms)
-         callback(null);
-      }, ms);
-  }
+ 
 
    this.copy = function(arg)
   {

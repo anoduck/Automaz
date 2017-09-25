@@ -26,6 +26,7 @@
 const {remote} = require("electron");
 const ipc = require('electron').ipcRenderer;
 const _= require("underscore");
+const log = require("./log")
 
 import mazolution from './mazolution';
 
@@ -63,15 +64,13 @@ export default {
           remote.BrowserWindow.getFocusedWindow().hide();
 
 
+          var result = null;
           //todo: check environment first
-          _.each(this.selectedSolution.steps,function(step){
-            var result;
+          _.each(this.selectedSolution.steps,function(step,index){
+            log.info(`Evaluation Step ${index} started`); 
             eval(step.automation);
             this.executionInfo = result;
-            new Notification("Executed Succcessfully",{
-              body: result
-            });
-            //ipc.send('notification',result);
+            log.info(`Evaluation Step ${index} execute successfully, result is ${result}`); 
           },this);
         }
       } 

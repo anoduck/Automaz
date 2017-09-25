@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "artoo-js": "^0.3.4",
+    "cheerio": "^1.0.0-rc.2",
     "d3-queue": "^3.0.7",
     "electron-compile": "^6.4.1",
     "electron-devtools-installer": "2.0.1",
