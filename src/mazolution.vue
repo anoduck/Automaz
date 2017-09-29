@@ -115,6 +115,7 @@ for (var x = 0; x < width; x++)
             {
               number: 1,
               name:"copy selected area to clipboard",
+              waitForStep: true,
               automation: `
               const AutoWeb = require('./autoweb');
               var autoweb = new AutoWeb(); 
@@ -128,23 +129,31 @@ for (var x = 0; x < width; x++)
               //autoweb.click("input[name='btnK']"); 
               autoweb.select(0,0,500,500);
               autoweb.copy();
-              autoweb.done();
+              autoweb.wait(2000); 
+              autoweb.done(this.stepCompleted);
               `
             },{
               number: 2,
-              name:"get clipboard",
+              name:"get clipboard", 
               automation: `
               const {clipboard} = require('electron')
-              result = clipboard.readHTML() 
+              this.engineContext.result = clipboard.readHTML() 
               `
             },{
               number: 3,
-              name:"get links from clipboard content",
-              automation: `
-              console.log("haha " +result)
-              var cheerio = require('cheerio');
-              $ = cheerio.load(result); 
-              console.log($('a').text());
+              name:"get links from clipboard content", 
+              automation: ` 
+              var cheerio = require('cheerio');   
+              var $ = cheerio.load(this.engineContext.result); 
+
+              var links = "";
+              $('a').each(function() {
+                  var link = $(this).attr('href');
+                  console.log(link);
+                  links = link + "=====" + link;
+              });
+              alert(links);
+
               `
             }
           ]

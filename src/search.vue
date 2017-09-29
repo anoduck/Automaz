@@ -28,6 +28,9 @@ const ipc = require('electron').ipcRenderer;
 const _= require("underscore");
 const log = require("./log")
 
+const Engine = require("./engine");
+var engine = new Engine();
+
 import mazolution from './mazolution';
 
  const focus = {
@@ -66,11 +69,9 @@ export default {
 
           var result = null;
           //todo: check environment first
-          _.each(this.selectedSolution.steps,function(step,index){
-            log.info(`Evaluation Step ${index} started`); 
-            eval(step.automation);
-            this.executionInfo = result;
-            log.info(`Evaluation Step ${index} execute successfully, result is ${result}`); 
+          _.each(this.selectedSolution.steps,function(step,index){ 
+            engine.execute(step);
+            //this.executionInfo = result;
           },this);
         }
       } 

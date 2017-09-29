@@ -58,9 +58,12 @@ module.exports = function()
       }, ms);
   }
 
-   this.done = function( )
+   this.done = function(callback)
   { 
-    this.q.await(function(error){}); 
+    this.q.await(function(error){ 
+      if (error) throw error; 
+      callback(null); 
+    }); 
   }
 
    this.type = function(selector, text)

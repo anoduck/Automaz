@@ -13,6 +13,7 @@ let hostWindow;
 
 const isDevMode = process.execPath.match(/[\\/]electron/);
 
+
 if (isDevMode) enableLiveReload();
 
 const createWindow = async () => {
