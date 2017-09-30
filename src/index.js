@@ -8,8 +8,7 @@ import Nightmare from 'nightmare';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
-let hostWindow;
+let mainWindow,hostWindow,editorWindow;
 
 const isDevMode = process.execPath.match(/[\\/]electron/);
 
@@ -19,7 +18,7 @@ if (isDevMode) enableLiveReload();
 const createWindow = async () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 660,
+    width: 400,
     height: 400,
     center: true,
     transparent:true,
@@ -43,6 +42,19 @@ const createWindow = async () => {
     */
   });
     hostWindow.loadURL(`file://${__dirname}/host.html`);
+
+
+  editorWindow = new BrowserWindow(
+  {
+    width: 800, 
+    height: 600,
+    /*
+    webPreferences: { 
+      preload: path.join(__dirname, 'injection.js')
+    }
+    */
+  });
+    editorWindow.loadURL(`file://${__dirname}/editor.html`);
 
   // Open the DevTools.
   if (isDevMode) {
