@@ -22,7 +22,12 @@ module.exports =  function(options){
             		stepCompleted:stepCompleted,
             	});
 	        }catch(e)
-	        {stepCompleted(e)}
+	        {
+
+                log.info(`Evaluation Step ${automationStep.number} execute failed with exception: ${e}`); 
+                stepCompleted(e);
+
+            }
             //log.info(`Evaluation Step ${automationStep.number} execute successfully, result is ${engine.engineContext.result}`); 
             log.info(`Evaluation Step ${automationStep.number} execute successfully!`); 
 			//log.info(`Evaluation Step ${automationStep.number} execute successfully, result is ${this.result}`); 

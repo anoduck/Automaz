@@ -10,8 +10,14 @@
   <link rel="stylesheet" href="assets/css/search.css">
 	</head>
 	<body> 
-		<div id="container" style="width:750px;height:100%;border:1px solid #ccc"></div>
-		<button id="btnExecute">Execute</button>
+		
+		<div style="width: 100%;height: 100%">
+		<div id="container" style="width:100%;height:90%;border:1px solid #ccc"></div>
+
+		<div style="width: 100%">
+			<button id="btnExecute" style="width: 100px;height: 60px;">Execute</button>
+		</div>
+	</div>
 	</body>
 
 	<script>
@@ -61,6 +67,11 @@
 		});
 
 
+		//switch driver 
+	const ipcRenderer = require('electron').ipcRenderer;
+    ipcRenderer.send('set-driver', 'editor');
+
+
 const Engine = require("./engine");
 var engine = new Engine();
 
@@ -68,7 +79,7 @@ var engine = new Engine();
 			var automationStep = {
               number: 1,
               name:"editor step", 
-              waitForStep: true,
+              waitForStep: false,
               automation: script
             };
             engine.execute(automationStep);

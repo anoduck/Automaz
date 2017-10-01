@@ -36,8 +36,11 @@ var preloadJsContent = fs.readFileSync(`${__dirname}/injection.js`, 'utf8');
 //Listen to automation command
 const ipcRenderer = require('electron').ipcRenderer;  
 ipcRenderer.on('automation-web-load', function(event, arg) {  
+
+  console.log(`start loading  ${arg}`);
 	webview.loadURL(arg);
 	webview.addEventListener('dom-ready', () => {
+  		console.log(`Page ready : ${arg}`);
 		event.sender.send('automation-web-load-completed', '')
 		});
 });

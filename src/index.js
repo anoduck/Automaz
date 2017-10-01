@@ -9,6 +9,7 @@ import Nightmare from 'nightmare';
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow,hostWindow,editorWindow;
+let driverWindow, busWindow;
 
 const isDevMode = process.execPath.match(/[\\/]electron/);
 
@@ -35,6 +36,8 @@ const createWindow = async () => {
   {
     width: 800, 
     height: 600,
+    x:0,
+    y:0,
     /*
     webPreferences: { 
       preload: path.join(__dirname, 'injection.js')
@@ -46,8 +49,10 @@ const createWindow = async () => {
 
   editorWindow = new BrowserWindow(
   {
-    width: 800, 
+    width: 400, 
     height: 600,
+    x:800,
+    y:0,
     /*
     webPreferences: { 
       preload: path.join(__dirname, 'injection.js')
@@ -74,7 +79,17 @@ const createWindow = async () => {
   });
 
   
+
+  driverWindow = mainWindow;
+  busWindow = hostWindow;
  
+
+ ipcMain.on('set-driver', function(event,arg){
+    if(arg == 'search')
+      driverWindow = mainWindow;
+    else if(arg == 'editor')
+      driverWindow = editorWindow;
+ });
 
 //IPC message for web loader
 
@@ -84,7 +99,7 @@ ipcMain.on('automation-web-load', function(event, arg) {
   });
 
 ipcMain.on('automation-web-load-completed',function(event, arg) { 
-    mainWindow.webContents.send('automation-web-load-completed',arg);
+    driverWindow.webContents.send('automation-web-load-completed',arg);
     //hostWindow.webContents.loadURL(arg);
   });
 
@@ -95,7 +110,7 @@ ipcMain.on('automation-web-action', function(event, arg) {
     });
 
 ipcMain.on('automation-web-action-completed',function(event, arg) { 
-    mainWindow.webContents.send('automation-web-action-completed',arg);
+    driverWindow.webContents.send('automation-web-action-completed',arg);
     //hostWindow.webContents.loadURL(arg);
   });
 
@@ -106,7 +121,7 @@ ipcMain.on('automation-web-input', function(event, arg) {
     });
 
 ipcMain.on('automation-web-input-completed',function(event, arg) { 
-    mainWindow.webContents.send('automation-web-input-completed',arg);
+    driverWindow.webContents.send('automation-web-input-completed',arg);
     //hostWindow.webContents.loadURL(arg);
   });
  

@@ -35,7 +35,7 @@ module.exports = function()
   };
 
  this.loadURLTask = function(url, callback)
-  {  
+  {   
     ipcRenderer.send('automation-web-load', url);
     ipcRenderer.on('automation-web-load-completed',function(event, arg) { 
        console.log("driver automation-web-load-completed");
