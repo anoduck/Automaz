@@ -69,7 +69,7 @@ module.exports = function()
    this.type = function(selector, text)
   {     
     var actionScript =  `
-      $("${selector}").val("${text}");
+      autoJQ("${selector}").val("${text}");
       `;
     this.q.defer(this.actionTask,actionScript);
 
@@ -77,7 +77,8 @@ module.exports = function()
  this.click = function(selector)
   {
     var actionScript =  `
-      $("${selector}").live("click");
+      autoJQ("${selector}").trigger("click");
+      //document.getElementById("${selector}").click();
       `;
     this.q.defer(this.actionTask,actionScript); 
   };

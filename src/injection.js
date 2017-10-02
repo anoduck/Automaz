@@ -4,7 +4,9 @@ var script = document.createElement("script");
   script.src = "https://code.jquery.com/jquery-3.2.1.min.js";
     script.onload = script.onreadystatechange = function() {
       $(document).ready(function() {
-        //$("#lst-ib").val("Hello, World!");
+ 
+        autoJQ = jQuery.noConflict( true );
+        //alert(autoJQ);
       });
     };
     document.body.appendChild(script);

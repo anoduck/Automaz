@@ -155,6 +155,25 @@ for (var x = 0; x < width; x++)
               alert(links);
 
               `
+            },
+            {
+              number: 4,
+              name:"avanade", 
+              automation: ` 
+             //put your automation script here
+            const AutoWeb = require('./autoweb');
+              var autoweb = new AutoWeb(); 
+              autoweb.loadURL("https://at.avanade.com"); 
+              autoweb.wait(1000); 
+              autoweb.type("#cred_userid_inputtext","lin.a.zhu@avanade.com");
+              autoweb.type("#cred_password_inputtext","cgclient!46");
+             autoweb.click("#cred_sign_in_button"); 
+              autoweb.wait(2000); 
+              autoweb.click("#aad_account_tile"); 
+   
+              autoweb.done(this.stepCompleted);
+
+              `
             }
           ]
         }
