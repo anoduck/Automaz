@@ -66,6 +66,7 @@ const createWindow = async () => {
     await installExtension(VUEJS_DEVTOOLS);
     mainWindow.webContents.openDevTools();
     hostWindow.webContents.openDevTools();
+    editorWindow.webContents.openDevTools();
   }
 
   mainWindow.focus();
@@ -88,7 +89,11 @@ const createWindow = async () => {
     if(arg == 'search')
       driverWindow = mainWindow;
     else if(arg == 'editor')
+    {
       driverWindow = editorWindow;
+
+      if (isDevMode) enableLiveReload();
+    }
  });
 
 //IPC message for web loader
@@ -125,6 +130,11 @@ ipcMain.on('automation-web-input-completed',function(event, arg) {
     //hostWindow.webContents.loadURL(arg);
   });
  
+ ipcMain.on('element-highlighted',function(event, arg) { 
+    driverWindow.webContents.send('element-highlighted',arg);
+    //hostWindow.webContents.loadURL(arg);
+  });
+
 
 globalShortcut.register('CommandOrControl+Shift+Z',()=>{
   mainWindow.show();

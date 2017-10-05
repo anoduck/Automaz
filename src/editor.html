@@ -64,6 +64,13 @@
 	            executeScript(script);
 	        }
 	        document.getElementById('btnExecute').onclick = getScript;
+
+
+	          ipcRenderer.on('element-highlighted',function(event, arg) { 
+			       console.log(`element-highlighted ${arg}`);
+			        editor.setValue(editor.getValue() + arg);
+			    });
+
 		});
 
 
@@ -81,8 +88,14 @@ var engine = new Engine();
               name:"editor step", 
               waitForStep: false,
               automation: script
-            };
+            }; 
             engine.execute(automationStep);
 		}
+
+
+
+		
+
+
 	</script>
 </html>
