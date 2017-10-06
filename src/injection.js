@@ -31,8 +31,7 @@ document.addEventListener('mouseover', e => {
   overlay.style.width = rect.width +'px';
   overlay.style.height = rect.height +'px';
 
-  const ipcRenderer = require('electron').ipcRenderer;
-  ipcRenderer.send('element-highlighted', getElementIdentifier(elem));
+  window.elementHighlighted(elem);
 });
 
 

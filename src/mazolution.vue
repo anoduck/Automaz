@@ -85,26 +85,22 @@ for (var x = 0; x < width; x++)
             {
               number: 1,
               name:"search local",
-              automation: `
-              const AutoWeb = require('./autoweb');
-              var autoweb = new AutoWeb(); 
-              //autoweb.setup();
-              autoweb.loadURL("https://www.google.com"); 
-              autoweb.type("#lst-ib","Hello, World!");
-              //autoweb.click("input[name='btnK']");  
+              automation: ` 
+
               `
             },
              {
               number: 1,
               name:"search ",
               automation: `
-             
-//put your automation script here
+              
           const AutoWeb = require('./autoweb');
               var autoweb = new AutoWeb(); 
               autoweb.loadURL("http://insite.local.com");
               autoweb.wait(2000);
               autoweb.type("input[name='criteria']","hello");
+
+              
               `
             }
           ]
