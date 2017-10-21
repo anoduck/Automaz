@@ -13,10 +13,6 @@ script.onload = script.onreadystatechange = function() {
 document.body.appendChild(script);
 
 
-function getElementIdentifier(elem)
-{
-  return elem.id;
-}
 
 
 // Inject the hover highlight experience
@@ -24,14 +20,30 @@ let overlay = document.createElement("div");
 overlay.id = 'mouseover_overlay';
 document.body.appendChild(overlay);
 document.addEventListener('mouseover', e => {
-  let elem = e.target;
-  let rect = elem.getBoundingClientRect();
-  overlay.style.top = rect.top +'px';
-  overlay.style.left = rect.left +'px';
-  overlay.style.width = rect.width +'px';
-  overlay.style.height = rect.height +'px';
+  if(window.elementHighlighterEnabled)
+  {
+    let elem = e.target;
+    let rect = elem.getBoundingClientRect();
+    overlay.style.top = rect.top +'px';
+    overlay.style.left = rect.left +'px';
+    overlay.style.width = rect.width +'px';
+    overlay.style.height = rect.height +'px';
 
-  window.elementHighlighted(elem);
+  }
+});
+
+document.addEventListener('click', e => {
+  if(window.elementHighlighterEnabled)
+  {
+    overlay.style.top = '0px';
+    overlay.style.left = '0px';
+    overlay.style.width ='0px';
+    overlay.style.height = '0px';
+    window.elementHighlighterEnabled = false;
+
+    let elem = e.target;    
+    window.elementHighlighted(elem);
+  }
 });
 
 

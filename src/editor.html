@@ -52,20 +52,31 @@
 		amdRequire(['vs/editor/editor.main'], function() {
 			var editor = monaco.editor.create(document.getElementById('container'), {
 				value: [
-					`//put your automation script here
+					`
+				
+              
 					`
 				].join('\n'),
 				language: 'javascript'
 			});
 
+			//Get script value
 			 function getScript() 
 	        {
 	            var script = editor.getValue();
 	            executeScript(script);
 	        }
-	        document.getElementById('btnExecute').onclick = getScript;
+			document.getElementById('btnExecute').onclick = getScript;
+			
+			//Initial load script
+			const fs = require('fs');
+			var editorMemoryContent = fs.readFileSync(`${__dirname}/editor-memory.js`, 'utf8');
+			editor.setValue(editorMemoryContent);
+			editor.onDidChangeModelContent(function(e) {
+				fs.writeFile(`${__dirname}/editor-memory.js`,editor.getValue(), 'utf8');			 
+			});
 
-
+			//Insert highlight value to editor
 	          ipcRenderer.on('element-highlighted',function(event, arg) { 
 			       console.log(`element-highlighted ${arg}`);
 			        editor.setValue(editor.getValue() + arg);

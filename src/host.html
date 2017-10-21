@@ -47,8 +47,7 @@ ipcRenderer.on('automation-web-load', function(event, arg) {
 
 
 ipcRenderer.on('automation-web-action', function(event, arg) {  
-
-  console.log(`start action  ${arg}`);
+  	console.log(`start action  ${arg}`);
 	webview.getWebContents().executeJavaScript(arg,true)
 	.then(result=>{
 		event.sender.send('automation-web-action-completed', '')
@@ -57,10 +56,18 @@ ipcRenderer.on('automation-web-action', function(event, arg) {
 });
 
 ipcRenderer.on('automation-web-input', function(event, arg) { 
-
-  console.log(`start input  ${arg}`);
+  	console.log(`start input  ${arg}`);
 	webview.getWebContents().sendInputEvent(arg);
  
+ });
+
+
+ipcRenderer.on('turn-element-highlight', function(event, arg) { 
+  	console.log(`turn-element-highlight  ${arg}`);
+	webview.getWebContents().executeJavaScript(`window.elementHighlighterEnabled=${arg}`)
+	.then(result=>{
+		
+	});
  });
 
 

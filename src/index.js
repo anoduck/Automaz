@@ -130,10 +130,18 @@ ipcMain.on('automation-web-input-completed',function(event, arg) {
     //hostWindow.webContents.loadURL(arg);
   });
  
+
+ ///////////////////////////////////////////////////////////
+ // region 
  ipcMain.on('element-highlighted',function(event, arg) { 
     driverWindow.webContents.send('element-highlighted',arg);
     //hostWindow.webContents.loadURL(arg);
   });
+
+ globalShortcut.register('CommandOrControl+Shift+T',()=>{
+  hostWindow.webContents.send('turn-element-highlight',true);
+});
+/////////////////////////////////////////////////
 
 
 globalShortcut.register('CommandOrControl+Shift+Z',()=>{
