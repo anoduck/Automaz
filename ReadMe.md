@@ -1,7 +1,7 @@
 #  Start
 
 For developer, quick start command as below
-```Javascript
+```Shell
 cd src
 electron-forge start
 ```
