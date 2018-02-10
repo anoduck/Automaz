@@ -67,7 +67,7 @@ export default {
           
             //switch driver 
           const ipcRenderer = require('electron').ipcRenderer;
-            ipcRenderer.send('set-driver', 'editor');
+          ipcRenderer.send('set-driver', 'editor');
 
           remote.BrowserWindow.getFocusedWindow().hide();
 
