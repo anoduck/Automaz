@@ -58,7 +58,8 @@
     "nightmare": "^2.10.0",
     "spectron": "^3.7.2",
     "underscore": "^1.8.3",
-    "vue": "2.5.13"
+    "vue": "2.5.13",
+    "robot-js":"1.0.2"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.24.1",

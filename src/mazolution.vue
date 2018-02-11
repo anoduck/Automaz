@@ -24,13 +24,59 @@ data(){
     info:process.versions.electron,
 allSolutions:
 [{
+    id:"0001",
     problemStatement :{
-      title: "open @website",
+      title: "search selected text",
+      solutionOverview: "search selected text in google",
+      shortcutKeyBinding:"Ctrl+Alt+1",
       context: "",
       block:"",
       author:"linzhu"
     },
-    solutions:[
+    solution:
+      {
+        enviroment:["automatwin","chrome"],
+        steps:[
+          {
+            number: 1,
+            name:"get selected text into clipboard",
+            automation: `
+             alert("hello");
+             var robot = require("robotjs");
+             robot.keyTap("L","CTRL");
+             
+            `
+          },{
+            number: 2,
+            name:"get clipboard as @keyword",
+            automation: `
+              const {clipboard} = require('electron')
+              this.engineContext.result = clipboard.readText() 
+            `
+          },{
+            number: 3,
+            name:"search google for @keyword",
+            automation: `
+              const {shell} = require('electron')
+              shell.openExternal("https://www.google.com/search?q="+his.engineContext.result);
+            `
+          }
+        ]
+      }
+    
+  }
+  , // #2
+  {
+    id:"0001",
+    problemStatement :{
+      title: "search selected text",
+      solutionOverview: "search selected text in google",
+      shortcutKeyBinding:"Ctrl+Alt+1",
+      context: "",
+      block:"",
+      author:"linzhu"
+    },
+    solution:
       {
         enviroment:["automatwin","chrome"],
         steps:[
@@ -68,7 +114,7 @@ for (var x = 0; x < width; x++)
           }
         ]
       }
-    ]
+    
   }
   , // #2
   {
@@ -78,7 +124,7 @@ for (var x = 0; x < width; x++)
         block:"",
         author:"linzhu"
       },
-      solutions:[
+      solution:
         {
           enviroment:["electron"],
           steps:[
@@ -104,8 +150,7 @@ for (var x = 0; x < width; x++)
               `
             }
           ]
-        }
-      ]
+        } 
     }//
     , // #2
   {
@@ -115,7 +160,7 @@ for (var x = 0; x < width; x++)
         block:"",
         author:"linzhu"
       },
-      solutions:[
+      solution:
         {
           enviroment:["electron"],
           steps:[
@@ -184,7 +229,7 @@ for (var x = 0; x < width; x++)
             }
           ]
         }
-      ]
+      
     }//
      , // #3
   {
@@ -194,7 +239,7 @@ for (var x = 0; x < width; x++)
         block:"",
         author:"linzhu"
       },
-      solutions:[
+      solution:
         {
           enviroment:["electron"],
           steps:[
@@ -242,7 +287,7 @@ app.start().then(function () {
             }
           ]
         }
-      ]
+      
     }//
 
 

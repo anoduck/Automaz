@@ -57,9 +57,8 @@ export default {
       this.matchingProblems = this.$refs.mazolution.find(this.problemHint);
       if(this.matchingProblems
         && this.matchingProblems.length > 0
-        && this.matchingProblems[0].solutions
-        && this.matchingProblems[0].solutions.length > 0)
-        this.selectedSolution =  this.matchingProblems[0].solutions[0];
+        && this.matchingProblems[0].solution )
+        this.selectedSolution =  this.matchingProblems[0].solution;
       },
       execute(){
         if(this.selectedSolution)
