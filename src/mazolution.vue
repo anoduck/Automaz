@@ -37,16 +37,16 @@ allSolutions:
       {
         enviroment:["automatwin","chrome"],
         steps:[
+          // {
+          //   number: 1,
+          //   name:"get selected text into clipboard",
+          //   automation: `
+          //    //alert("hello");
+          //    var robot = require("robotjs");
+          //    robot.keyTap("C","control");   
+          //   `
+          // },
           {
-            number: 1,
-            name:"get selected text into clipboard",
-            automation: `
-             alert("hello");
-             var robot = require("robotjs");
-             robot.keyTap("L","CTRL");
-             
-            `
-          },{
             number: 2,
             name:"get clipboard as @keyword",
             automation: `
@@ -58,7 +58,66 @@ allSolutions:
             name:"search google for @keyword",
             automation: `
               const {shell} = require('electron')
-              shell.openExternal("https://www.google.com/search?q="+his.engineContext.result);
+              shell.openExternal("https://www.google.com/search?q="+this.engineContext.result);
+            `
+          }
+        ]
+      }
+    
+  }
+  , // #2
+  {
+    id:"0002",
+    problemStatement :{
+      title: "capture screenshot",
+      solutionOverview: "search selected text in google",
+      shortcutKeyBinding:"Ctrl+Alt+1",
+      context: "",
+      block:"",
+      author:"linzhu"
+    },
+    solution:
+      {
+        enviroment:["automatwin","chrome"],
+        steps:[
+          {
+            number: 1,
+            name:"capture image",
+            automation: `
+             //alert("hello");
+              
+
+              let robot = require("robotjs")
+let fs = require('fs')
+let Jimp = require('jimp')
+
+let size = 200
+let rimg = robot.screen.capture(0, 0, size, size)
+let path = 'myfile.png'
+
+// Create a new blank image, same size as Robotjs' one
+let width = size
+let height = size
+var jimg = new Jimp(width, height);
+for (var x=0; x<width; x++) {
+    for (var y=0; y<height; y++) {
+        var index = (y * rimg.byteWidth) + (x * rimg.bytesPerPixel);
+        var r = rimg.image[index];
+        var g = rimg.image[index+1];
+        var b = rimg.image[index+2];
+        var num = (r*256) + (g*256*256) + (b*256*256*256) + 255;
+        jimg.setPixelColor(num, x, y);
+    }
+}
+
+jimg.write(path)
+            `
+          },
+          {
+            number: 2,
+            name:"save image to target path",
+            automation: `
+              //todo
             `
           }
         ]
@@ -92,7 +151,7 @@ allSolutions:
             name:"go to address bar",
             automation: `
             var robot = require("robotjs");
-            //robot.keyTap("L","CTRL");
+            //robot.keyTap("L","control");
 // Speed up the mouse.
 robot.setMouseDelay(2);
 

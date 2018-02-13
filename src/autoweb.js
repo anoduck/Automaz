@@ -61,7 +61,8 @@ module.exports = function()
    this.done = function(callback)
   { 
     this.q.await(function(error){ 
-      if (error) throw error; 
+      //if (error) throw error; 
+      console.log(error);
       callback(null); 
     }); 
   }

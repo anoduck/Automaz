@@ -16,22 +16,25 @@ module.exports =  function(options){
 		// this is executed in Queee's context
             log.info(`Evaluation Step ${automationStep.number} started`); 
             try{
-            engine.evalInContext(automationStep.automation,
+            	engine.evalInContext(automationStep.automation,
             	{
             		engineContext:engine.engineContext,
             		stepCompleted:stepCompleted,
-            	});
+				});
+				
+				//log.info(`Evaluation Step ${automationStep.number} execute successfully, result is ${engine.engineContext.result}`); 
+				log.info(`Evaluation Step ${automationStep.number} execute successfully!`); 
+				//log.info(`Evaluation Step ${automationStep.number} execute successfully, result is ${this.result}`); 
+				
 	        }catch(e)
 	        {
 
                 log.info(`Evaluation Step ${automationStep.number} execute failed with exception: ${e}`); 
                 stepCompleted(e);
 
+			}
+			finally{
             }
-            //log.info(`Evaluation Step ${automationStep.number} execute successfully, result is ${engine.engineContext.result}`); 
-            log.info(`Evaluation Step ${automationStep.number} execute successfully!`); 
-			//log.info(`Evaluation Step ${automationStep.number} execute successfully, result is ${this.result}`); 
-
             if(automationStep.waitForStep){}
             else  stepCompleted(null);
 
