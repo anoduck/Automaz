@@ -27,14 +27,14 @@ allSolutions:
     id:"0001",
     problemStatement :{
       title: "search selected text",
-      solutionOverview: "search selected text in google",
-      shortcutKeyBinding:"Ctrl+Alt+1",
       context: "",
       block:"",
       author:"linzhu"
     },
     solution:
       {
+        solutionOverview: "search selected text in google",
+        shortcutKeyBinding:"Ctrl+Alt+1",
         enviroment:["automatwin","chrome"],
         steps:[
           // {
