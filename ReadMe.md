@@ -16,5 +16,8 @@ electron-forge start
 
 
 
+
+
+
 ## Technical Architecture
 ![Technical Architecture](doc/images/Automaz.png)
